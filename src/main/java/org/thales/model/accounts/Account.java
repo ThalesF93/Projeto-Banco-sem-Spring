@@ -18,6 +18,14 @@ import java.util.*;
 
 public abstract class Account {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter
+            .ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
+            .withLocale(Locale.US);
+
+    private static final DecimalFormat US_FORMATTER = new DecimalFormat("¤#,##0.00",
+            new DecimalFormatSymbols(Locale.US));
+
+
     private final Holder holder;
     private final String accountNumber;
     protected BigDecimal balance = BigDecimal.ZERO;
@@ -104,34 +112,26 @@ public abstract class Account {
     }
 
     public void generateBankStatement(Account account)  {
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.SHORT)
-                .withLocale(Locale.US);
-
-        DecimalFormat USFormatter = new DecimalFormat("¤#,##0.00",
-                new DecimalFormatSymbols(Locale.US));
-        USFormatter.setParseBigDecimal(true);
-
         File statements = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(statements))){
 
             writer.write("- Bank Statement \n");
             writer.write("-----------------------------------------------------\n");
-            writer.write("- Statement's Date: " + LocalDateTime.now().format(formatter) + "\n");
+            writer.write("- Statement's Date: " + LocalDateTime.now().format(DATE_TIME_FORMATTER) + "\n");
             writer.write("- Account number " + account.getAccountNumber() + "\n");
             writer.write("- Holder:  " + getHolder().getName() + "\n");
             writer.write("- Transactions: " + "\n");
             int transactionNumber = 1;
             for (Transaction transaction : account.getTransactions()){
-                writer.write( String.format("Date: %s%n #%d -  Transaction: %s, value: %s%n%n", transaction.getDateTime().format(formatter), transactionNumber++, transaction.getType(), USFormatter.format(transaction.getAmount()) ));
+                writer.write( String.format("Date: %s%n #%d -  Transaction: %s, value: %s%n%n", transaction.getDateTime().format(DATE_TIME_FORMATTER), transactionNumber++, transaction.getType(), US_FORMATTER.format(transaction.getAmount()) ));
             }
-            writer.write("- Updated Balance: " + USFormatter.format(account.getBalance()));
-          }  catch (IOException e) {
+            writer.write("- Updated Balance: " + US_FORMATTER.format(account.getBalance()));
+        }  catch (IOException e) {
             throw new RuntimeException("Failed to generate bank statement for account "
                     + account.getAccountNumber(), e);
         }
-            showStatement();
+        showStatement();
     }
 
     @Override
