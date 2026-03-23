@@ -60,6 +60,6 @@ public class Main {
         //agency.showAccountsByBalance();
         //agency.showAccountsByNameAsc();
         account.generateBankStatement(account);
-        account.showStatement();
+//        account.showStatement();
     }
 }

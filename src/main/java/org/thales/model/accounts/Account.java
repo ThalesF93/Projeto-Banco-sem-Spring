@@ -43,9 +43,7 @@ public abstract class Account {
     }
 
     public List<Transaction> getTransactions() {
-        return transactions;
-
-                //Collections.unmodifiableList(transactions);
+        return Collections.unmodifiableList(transactions);
     }
 
     protected void addTransactions(Transaction transaction) {
@@ -91,15 +89,14 @@ public abstract class Account {
         return String.valueOf(number);
     }
 
-    public void showStatement(){
-
+    private void showStatement(){
         File file = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String linha = null;
+            String line = null;
 
-            while ((linha = reader.readLine()) != null) {
-                System.out.println(linha);
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
             }
         } catch (IOException e) {
             throw new RuntimeException("Erro de I/O", e);
@@ -134,7 +131,7 @@ public abstract class Account {
             throw new RuntimeException("Failed to generate bank statement for account "
                     + account.getAccountNumber(), e);
         }
-
+            showStatement();
     }
 
     @Override
