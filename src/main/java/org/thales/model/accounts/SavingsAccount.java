@@ -1,0 +1,28 @@
+package org.thales.model.accounts;
+
+import org.thales.enums.FeeType;
+import org.thales.enums.TransactionType;
+import org.thales.model.Transaction;
+import org.thales.model.holders.Holder;
+
+import java.math.BigDecimal;
+
+public class SavingsAccount extends Account{
+    public SavingsAccount(Holder holder) {
+        super(holder);
+    }
+
+    @Override
+    public void transference(Account destinationAccount, BigDecimal amount) {
+       amountValidation(amount);
+       BigDecimal fee = calculateFee(FeeType.SAVINGS_ACCOUNT_TRANSFER.getRate(), amount);
+       balanceValidation(amount.add(fee));
+       this.balance = this.balance.subtract(amount).subtract(fee);
+       destinationAccount.deposit(amount);
+       addTransactions((new Transaction(TransactionType.DEPOSIT, amount.add(fee))));
+    }
+
+    public BigDecimal calculateFee(BigDecimal tax, BigDecimal amount) {
+        return amount.multiply(tax);
+    }
+}
