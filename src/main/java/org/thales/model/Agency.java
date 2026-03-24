@@ -66,7 +66,7 @@ public class Agency {
     }
 
     public void withdraw(String accountNumber, BigDecimal amount){
-        findAccount(accountNumber).withdrawal(amount);
+        findAccount(accountNumber).withdraw(amount);
     }
 
     public void deposit(String accountNumber, BigDecimal amount) {
@@ -105,8 +105,8 @@ public class Agency {
             throw new AccountNotFoundException("Account not found");
         }
         return  String.format(
-                "A conta de número %s está localizada na Agência %s.%n" +
-                        "O titular da conta é %s, com saldo atual de R$ %.2f",accountNumber, getAgencyNumber(), account.getHolder().getName(), account.getBalance()
+                "Account number %s is located at agency %s.%n" +
+                        "The holder is %s, with updated balance $ %.2f",accountNumber, getAgencyNumber(), account.getHolder().getName(), account.getBalance()
 
         );
     }
@@ -119,18 +119,6 @@ public class Agency {
                 .collect(Collectors.toList());
     }
 
-    public void showAccountsByBalance(){
-        List<Account> accountsByBalance = sortByBalance();
-        for (Account account : accountsByBalance) {
-            Holder holder = account.getHolder();
-            if (holder instanceof IndividualHolder individualHolder) {
-                System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), individualHolder.getName(), individualHolder.getCpf() ,account.getBalance());
-            } else if (holder instanceof CorporateHolder corporateHolder) {
-                System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), corporateHolder.getName(), corporateHolder.getCnpj() ,account.getBalance());
-            }
-        }
-    }
-
     public List<Account> sortByName(){
         return accounts
                 .values()
@@ -139,17 +127,29 @@ public class Agency {
                 .collect(Collectors.toList());
     }
 
+    public void showAccountsByBalance(){
+        List<Account> accountsByBalance = sortByBalance();
+        for (Account account : accountsByBalance) {
+            Holder holder = account.getHolder();
+            formatAccountInfo(account, holder);
+        }
+    }
+
     public void showAccountsByNameAsc() {
         List<Account> accountsByName = sortByName();
         for (Account account : accountsByName) {
             Holder holder = account.getHolder();
-            if (holder instanceof IndividualHolder individualHolder) {
-                System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), individualHolder.getName(), individualHolder.getCpf(), account.getBalance());
-            } else if (holder instanceof CorporateHolder corporateHolder) {
-                System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), corporateHolder.getName(), corporateHolder.getCnpj(), account.getBalance());
-            }
+            formatAccountInfo(account, holder);
         }
 
+    }
+
+    private static void formatAccountInfo(Account account, Holder holder) {
+        if (holder instanceof IndividualHolder individualHolder) {
+            System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), individualHolder.getName(), individualHolder.getCpf() , account.getBalance());
+        } else if (holder instanceof CorporateHolder corporateHolder) {
+            System.out.printf("Account number: %s%n Holder: %s, ID number: %s, with Balance %s%n", account.getAccountNumber(), corporateHolder.getName(), corporateHolder.getCnpj() , account.getBalance());
+        }
     }
 
 

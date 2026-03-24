@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 public enum FeeType {
     CURRENT_ACCOUNT_TRANSFER(new BigDecimal("0.05") ),
     SAVINGS_ACCOUNT_TRANSFER(new BigDecimal("0.00") ),
-    WITHDRAWAL(new BigDecimal("0.02") ),
+    GOLD_ACCOUNT_TRANSFER(new BigDecimal("0.15") ),
+    WITHDRAW(new BigDecimal("0.02") ),
     PIX(new BigDecimal("0.01"));
 
 

@@ -1,6 +1,6 @@
 package org.thales.model;
 
-import org.thales.enums.TransactionType;
+import org.thales.enums.OperationType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,28 +8,28 @@ import java.util.Objects;
 
 
 public class Transaction {
-        private TransactionType type; // DEPOSIT, WITHDRAW, TRANSFER
+        private OperationType type; // DEPOSIT, WITHDRAW, TRANSFER
         private BigDecimal amount;
         private LocalDateTime dateTime;
         private String description;
 
-        public Transaction(TransactionType type, BigDecimal amount, String description) {
+        public Transaction(OperationType type, BigDecimal amount, String description) {
             this.type = type;
             this.amount = amount;
             this.description = description;
             this.dateTime = LocalDateTime.now();
         }
-        public Transaction(TransactionType type, BigDecimal amount) {
+        public Transaction(OperationType type, BigDecimal amount) {
             this.type = type;
             this.amount = amount;
             this.dateTime = LocalDateTime.now();
         }
 
-        public TransactionType getType() {
+        public OperationType getType() {
             return type;
         }
 
-        public void setType(TransactionType type) {
+        public void setType(OperationType type) {
             this.type = type;
         }
 

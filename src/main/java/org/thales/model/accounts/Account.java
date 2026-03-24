@@ -1,6 +1,6 @@
 package org.thales.model.accounts;
 
-import org.thales.enums.TransactionType;
+import org.thales.enums.OperationType;
 import org.thales.exceptions.InsufficientBalanceException;
 import org.thales.exceptions.InvalidAmountException;
 import org.thales.model.Transaction;
@@ -58,17 +58,17 @@ public abstract class Account {
         transactions.add(transaction);
     }
 
-    public void withdrawal(BigDecimal amount){
+    public void withdraw(BigDecimal amount){
         amountValidation(amount);
         balanceValidation(amount);
         this.balance = this.balance.subtract(amount);
-        transactions.add(new Transaction(TransactionType.WITHDRAW, amount));
+        transactions.add(new Transaction(OperationType.WITHDRAW, amount));
     }
 
     public void deposit(BigDecimal amount){
         amountValidation(amount);
         this.balance = this.balance.add(amount);
-        transactions.add(new Transaction(TransactionType.DEPOSIT, amount));
+        transactions.add(new Transaction(OperationType.DEPOSIT, amount));
     }
 
     public void transference(Account destinationAccount, BigDecimal amount){
@@ -76,7 +76,7 @@ public abstract class Account {
         balanceValidation(amount);
         this.balance = this.balance.subtract(amount);
         destinationAccount.deposit(amount);
-        transactions.add(new Transaction(TransactionType.TRANSFER, amount));
+        transactions.add(new Transaction(OperationType.TRANSFER, amount));
 
     }
 
@@ -97,7 +97,8 @@ public abstract class Account {
         return String.valueOf(number);
     }
 
-    private void showStatement(){
+    protected void showStatement(){
+
         File file = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -111,7 +112,7 @@ public abstract class Account {
         }
     }
 
-    public void generateBankStatement(Account account)  {
+    public void generateBankStatement()  {
         File statements = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(statements))){
@@ -119,17 +120,17 @@ public abstract class Account {
             writer.write("- Bank Statement \n");
             writer.write("-----------------------------------------------------\n");
             writer.write("- Statement's Date: " + LocalDateTime.now().format(DATE_TIME_FORMATTER) + "\n");
-            writer.write("- Account number " + account.getAccountNumber() + "\n");
+            writer.write("- Account number " + this.getAccountNumber() + "\n");
             writer.write("- Holder:  " + getHolder().getName() + "\n");
             writer.write("- Transactions: " + "\n");
             int transactionNumber = 1;
-            for (Transaction transaction : account.getTransactions()){
+            for (Transaction transaction : this.getTransactions()){
                 writer.write( String.format("Date: %s%n #%d -  Transaction: %s, value: %s%n%n", transaction.getDateTime().format(DATE_TIME_FORMATTER), transactionNumber++, transaction.getType(), US_FORMATTER.format(transaction.getAmount()) ));
             }
-            writer.write("- Updated Balance: " + US_FORMATTER.format(account.getBalance()));
+            writer.write("- Updated Balance: " + US_FORMATTER.format(this.getBalance()));
         }  catch (IOException e) {
             throw new RuntimeException("Failed to generate bank statement for account "
-                    + account.getAccountNumber(), e);
+                    + this.getAccountNumber(), e);
         }
         showStatement();
     }

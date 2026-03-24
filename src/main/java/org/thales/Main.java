@@ -4,6 +4,7 @@ import org.thales.enums.MaritalStatus;
 import org.thales.model.Agency;
 import org.thales.model.Bank;
 import org.thales.model.accounts.Account;
+import org.thales.model.accounts.GoldAccount;
 import org.thales.model.accounts.StandardAccount;
 import org.thales.model.employees.Manager;
 import org.thales.model.holders.IndividualHolder;
@@ -51,15 +52,28 @@ public class Main {
                                 "999.000.111-22",
                                 MaritalStatus.VIUVO)));
 
+        Account account4 = agency.openAccount(
+                new GoldAccount(
+                        new IndividualHolder(
+                                "Edson Arantes",
+                                "Vila Belmiro, 1000",
+                                "Pelé@email.com",
+                                "999.000.111-22",
+                                MaritalStatus.DIVORCIADO)));
+
 
             account.deposit(new BigDecimal("300"));
             account.deposit(new BigDecimal("500"));
-            account2.deposit(new BigDecimal("200"));
+            account2.deposit(new BigDecimal("1000"));
+            account4.deposit(new BigDecimal("10"));
 
         //System.out.println(agency.showAccountDetails(account2.getAccountNumber()));
-        //agency.showAccountsByBalance();
+       // agency.showAccountsByBalance();
         //agency.showAccountsByNameAsc();
-        account.generateBankStatement(account);
 //        account.showStatement();
+        account2.transference(account4, new BigDecimal("900"));
+        account4.generateBankStatement();
+        System.out.println("-------------------------");
+        account2.generateBankStatement();
     }
 }

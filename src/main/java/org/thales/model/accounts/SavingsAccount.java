@@ -1,7 +1,7 @@
 package org.thales.model.accounts;
 
 import org.thales.enums.FeeType;
-import org.thales.enums.TransactionType;
+import org.thales.enums.OperationType;
 import org.thales.model.Transaction;
 import org.thales.model.holders.Holder;
 
@@ -19,7 +19,8 @@ public class SavingsAccount extends Account{
        balanceValidation(amount.add(fee));
        this.balance = this.balance.subtract(amount).subtract(fee);
        destinationAccount.deposit(amount);
-       addTransactions((new Transaction(TransactionType.DEPOSIT, amount.add(fee))));
+       addTransactions((new Transaction(OperationType.TRANSFER, amount.add(fee))));
+       addTransactions((new Transaction(OperationType.FEE, fee)));
     }
 
     public BigDecimal calculateFee(BigDecimal tax, BigDecimal amount) {
