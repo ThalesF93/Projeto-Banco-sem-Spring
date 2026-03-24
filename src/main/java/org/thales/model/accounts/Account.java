@@ -106,7 +106,7 @@ public abstract class Account {
 
     protected void showStatement(){
 
-        File file = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
+        File file = new File("statements/" + getAccountNumber() + ".txt");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = null;
@@ -115,7 +115,7 @@ public abstract class Account {
                 System.out.println(line);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Erro de I/O", e);
+            throw new RuntimeException("Error ", e);
         }
     }
 
