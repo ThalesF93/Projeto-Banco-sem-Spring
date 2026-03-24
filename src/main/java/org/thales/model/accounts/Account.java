@@ -120,8 +120,12 @@ public abstract class Account {
     }
 
     public void generateBankStatement()  {
-        File statements = new File("C:\\Users\\User\\OneDrive\\Área de Trabalho\\Extratos\\teste.txt");
+        File directory = new File("statements");
 
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        File statements = new File(directory, getAccountNumber() + ".txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(statements))){
 
             writer.write("- Bank Statement \n");
