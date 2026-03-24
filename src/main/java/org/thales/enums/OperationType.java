@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public enum OperationType {
 
-    DEPOSIT, WITHDRAW, TRANSFER, FEE
+    DEPOSIT, WITHDRAW, TRANSFER, FEE, PAYMENT
 
 
 }

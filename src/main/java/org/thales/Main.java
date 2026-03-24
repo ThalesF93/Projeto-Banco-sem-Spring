@@ -8,9 +8,11 @@ import org.thales.model.accounts.GoldAccount;
 import org.thales.model.accounts.StandardAccount;
 import org.thales.model.employees.Manager;
 import org.thales.model.holders.IndividualHolder;
+import org.thales.payments.ScheduledPayment;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -65,15 +67,21 @@ public class Main {
             account.deposit(new BigDecimal("300"));
             account.deposit(new BigDecimal("500"));
             account2.deposit(new BigDecimal("1000"));
-            account4.deposit(new BigDecimal("10"));
+            account4.deposit(new BigDecimal("1000"));
 
         //System.out.println(agency.showAccountDetails(account2.getAccountNumber()));
        // agency.showAccountsByBalance();
         //agency.showAccountsByNameAsc();
 //        account.showStatement();
         account2.transference(account4, new BigDecimal("900"));
+
+//        System.out.println("-------------------------");
+//        account2.generateBankStatement();
+
+        ScheduledPayment payment = new ScheduledPayment(account4, new BigDecimal("500"), 10, LocalDate.now(), "Health Insurance");
+        payment.execute();
+
         account4.generateBankStatement();
-        System.out.println("-------------------------");
-        account2.generateBankStatement();
+
     }
 }

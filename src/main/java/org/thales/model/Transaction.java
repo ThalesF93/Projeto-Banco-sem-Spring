@@ -13,12 +13,21 @@ public class Transaction {
         private LocalDateTime dateTime;
         private String description;
 
+        public Transaction(OperationType type, BigDecimal amount, String description, LocalDateTime date) {
+            this.type = type;
+            this.amount = amount;
+            this.description = description;
+            this.dateTime = date;
+        }
+
         public Transaction(OperationType type, BigDecimal amount, String description) {
             this.type = type;
             this.amount = amount;
             this.description = description;
             this.dateTime = LocalDateTime.now();
         }
+
+
         public Transaction(OperationType type, BigDecimal amount) {
             this.type = type;
             this.amount = amount;

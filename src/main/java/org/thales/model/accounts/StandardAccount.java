@@ -7,7 +7,8 @@ import org.thales.model.holders.Holder;
 
 import java.math.BigDecimal;
 
-public class StandardAccount extends Account{
+public class StandardAccount extends Account  {
+
     public StandardAccount(Holder holder) {
         super(holder);
     }
@@ -24,8 +25,8 @@ public class StandardAccount extends Account{
     }
 
 
-
     public BigDecimal calculateFee(BigDecimal tax, BigDecimal amount) {
         return amount.multiply(tax);
     }
+
 }

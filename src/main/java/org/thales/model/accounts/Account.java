@@ -54,8 +54,14 @@ public abstract class Account {
         return Collections.unmodifiableList(transactions);
     }
 
-    protected void addTransactions(Transaction transaction) {
+    public void addTransactions(Transaction transaction) {
         transactions.add(transaction);
+    }
+
+    public void payment(BigDecimal amount){
+        amountValidation(amount);
+        balanceValidation(amount);
+        this.balance = this.balance.subtract(amount);
     }
 
     public void withdraw(BigDecimal amount){

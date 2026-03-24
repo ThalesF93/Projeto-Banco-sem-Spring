@@ -32,7 +32,7 @@ public class GoldAccount extends Account{
 
     public GoldAccount(Holder holder) {
         super(holder);
-        this.balance = getBalance().add(overdraft);
+        this.balance = this.balance.add(overdraft);
     }
 
     public BigDecimal getOverdraft() {
@@ -41,13 +41,6 @@ public class GoldAccount extends Account{
 
     public void setOverdraft(BigDecimal overdraft) {
         this.overdraft = overdraft;
-    }
-
-    @Override
-    protected void balanceValidation(BigDecimal amount) {
-        if (getBalance().compareTo(amount) > 0){
-            throw new InsufficientBalanceException("Unauthorized operation! Withdraw must not be more than balance");
-        };
     }
 
     @Override
