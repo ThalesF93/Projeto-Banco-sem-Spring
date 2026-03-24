@@ -30,12 +30,12 @@ public class Main {
         Account account = agency.openAccount(
                 new StandardAccount(
                         new IndividualHolder(
-                                "João Silva", 
+                                "João Silva",
                                 "Rua das Flores 123",
                                 "joao@email.com",
                                 "111.222.333-44",
                                 MaritalStatus.CASADO)));
-        
+
         Account account2 = agency.openAccount(
                 new StandardAccount(
                         new IndividualHolder(
@@ -64,23 +64,20 @@ public class Main {
                                 MaritalStatus.DIVORCIADO)));
 
 
-            account.deposit(new BigDecimal("300"));
-            account.deposit(new BigDecimal("500"));
-            account2.deposit(new BigDecimal("1000"));
-            account4.deposit(new BigDecimal("1000"));
+        account.deposit(new BigDecimal("300"));
+        account.deposit(new BigDecimal("500"));
+        account2.deposit(new BigDecimal("1000"));
+        account4.deposit(new BigDecimal("100"));
 
-        //System.out.println(agency.showAccountDetails(account2.getAccountNumber()));
-       // agency.showAccountsByBalance();
-        //agency.showAccountsByNameAsc();
-//        account.showStatement();
-        account2.transference(account4, new BigDecimal("900"));
 
-//        System.out.println("-------------------------");
-//        account2.generateBankStatement();
+
 
         ScheduledPayment payment = new ScheduledPayment(account4, new BigDecimal("500"), 10, LocalDate.now(), "Health Insurance");
         payment.execute();
+        account4.withdraw(new BigDecimal("200"));
 
+        account4.generateBankStatement();
+        account4.deposit(new BigDecimal("200"));
         account4.generateBankStatement();
 
     }

@@ -62,6 +62,7 @@ public abstract class Account {
         amountValidation(amount);
         balanceValidation(amount);
         this.balance = this.balance.subtract(amount);
+
     }
 
     public void withdraw(BigDecimal amount){
@@ -133,13 +134,16 @@ public abstract class Account {
             for (Transaction transaction : this.getTransactions()){
                 writer.write( String.format("Date: %s%n #%d -  Transaction: %s, value: %s%n%n", transaction.getDateTime().format(DATE_TIME_FORMATTER), transactionNumber++, transaction.getType(), US_FORMATTER.format(transaction.getAmount()) ));
             }
-            writer.write("- Updated Balance: " + US_FORMATTER.format(this.getBalance()));
+            writer.write("- Updated Balance: " + US_FORMATTER.format(this.getBalance())+ "\n");
+            writeExtraInfo(writer);
         }  catch (IOException e) {
             throw new RuntimeException("Failed to generate bank statement for account "
                     + this.getAccountNumber(), e);
         }
         showStatement();
     }
+
+    protected void writeExtraInfo(BufferedWriter writer) throws IOException {}
 
     @Override
     public String toString() {
