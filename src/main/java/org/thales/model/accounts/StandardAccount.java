@@ -19,7 +19,7 @@ public class StandardAccount extends Account{
         balanceValidation(amount.add(fee));
         this.balance = this.balance.subtract(amount).subtract(fee);
         destinationAccount.deposit(amount);
-        addTransactions((new Transaction(OperationType.TRANSFER, amount.add(fee))));
+        addTransactions((new Transaction(OperationType.TRANSFER, amount)));
         addTransactions((new Transaction(OperationType.FEE, fee)));
     }
 
