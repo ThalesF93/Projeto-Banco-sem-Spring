@@ -62,22 +62,18 @@ public class Main {
                                 "Pelé@email.com",
                                 "999.000.111-22",
                                 MaritalStatus.DIVORCIADO)));
-
-
-        account.deposit(new BigDecimal("300"));
-        account.deposit(new BigDecimal("500"));
-        account2.deposit(new BigDecimal("1000"));
+        account2.deposit(new BigDecimal("1500"));
+        account2.transference(account4,new BigDecimal("1000"));
         account4.deposit(new BigDecimal("100"));
 
 
 
 
-        ScheduledPayment payment = new ScheduledPayment(account4, new BigDecimal("500"), 10, LocalDate.now(), "Health Insurance");
+        ScheduledPayment payment = new ScheduledPayment(account4, new BigDecimal("500"), 4, LocalDate.now(), "Health Insurance");
         payment.execute();
         account4.withdraw(new BigDecimal("200"));
 
-        account4.generateBankStatement();
-        account4.deposit(new BigDecimal("200"));
+        account4.deposit(new BigDecimal("1200"));
         account4.generateBankStatement();
 
     }

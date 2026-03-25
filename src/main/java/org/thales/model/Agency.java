@@ -65,20 +65,6 @@ public class Agency {
         return account;
     }
 
-    public void withdraw(String accountNumber, BigDecimal amount){
-        findAccount(accountNumber).withdraw(amount);
-    }
-
-    public void deposit(String accountNumber, BigDecimal amount) {
-        findAccount(accountNumber).deposit(amount);
-    }
-
-    public void transference(String origin, String destination, BigDecimal amount){
-        Account originAccount = findAccount(origin);
-        Account destinationAccount = findAccount(destination);
-        originAccount.transference(destinationAccount, amount);
-    }
-
     public Account findAccount(String accountNumber){
         Account account = accounts.get(accountNumber);
         if (account == null){

@@ -87,38 +87,6 @@ public abstract class Account {
 
     }
 
-    protected static void amountValidation(BigDecimal amount) {
-        if (amount.compareTo(BigDecimal.ZERO) < 0){
-            throw new InvalidAmountException("Amount must more than zero");
-        }
-    }
-
-    protected void balanceValidation(BigDecimal amount) {
-        if (getBalance().compareTo(amount) < 0){
-            throw new InsufficientBalanceException("Unauthorized operation! Withdraw must not be more than balance");
-        }
-    }
-
-    private String generateAccountNumber(){
-        int number = secureRandom.nextInt(90_000_000) + 10_000_000;
-        return String.valueOf(number);
-    }
-
-    protected void showStatement(){
-
-        File file = new File("statements/" + getAccountNumber() + ".txt");
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line = null;
-
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error ", e);
-        }
-    }
-
     public void generateBankStatement()  {
         File directory = new File("statements");
 
@@ -147,7 +115,39 @@ public abstract class Account {
         showStatement();
     }
 
+    protected void showStatement(){
+
+        File file = new File("statements/" + getAccountNumber() + ".txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = null;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error ", e);
+        }
+    }
+
     protected void writeExtraInfo(BufferedWriter writer) throws IOException {}
+
+    protected static void amountValidation(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0){
+            throw new InvalidAmountException("Amount must more than zero");
+        }
+    }
+
+    protected void balanceValidation(BigDecimal amount) {
+        if (getBalance().compareTo(amount) < 0){
+            throw new InsufficientBalanceException("Unauthorized operation! Withdraw must not be more than balance");
+        }
+    }
+
+    private String generateAccountNumber(){
+        int number = secureRandom.nextInt(90_000_000) + 10_000_000;
+        return String.valueOf(number);
+    }
 
     @Override
     public String toString() {
